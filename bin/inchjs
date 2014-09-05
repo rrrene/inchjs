@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+(function() {
+  'use strict';
+
+  var Inch = require('../lib/inch');
+
+  Inch.suggest();
+})();
