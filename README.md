@@ -15,4 +15,4 @@ Measuring documentation coverage is not an easy task, as my experience in develo
 * But some docs are better than none, so in most cases a singleline comment will suffice and is therefore enough for a "not bad"-rating.
 * If otherwise sufficient docs contain "TODO: ..." or "FIXME" this is considered fair-game and does not impact the evaluation.
 
-If you want to contribute [open an issue](https://github.com/rrrene/inch.js/issues/new)!
+If you want to contribute to this list [open an issue](https://github.com/rrrene/inch.js/issues/new)!
