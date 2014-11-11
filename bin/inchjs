@@ -3,7 +3,8 @@
 (function() {
   'use strict';
 
-  var Inch = require('../lib/inch');
+  var Inch = require('../lib/inch'),
+      inch_args = process.argv.slice(2, process.argv.length);
 
-  Inch.suggest(null, process.argv.slice(2, process.argv.length));
+  Inch.run(inch_args);
 })();
