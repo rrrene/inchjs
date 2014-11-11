@@ -1,7 +1,7 @@
 {
   "author": "René Föhring",
   "name": "inch.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": {
     "url": "https://github.com/rrrene/inch.js"
   },
@@ -19,5 +19,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {"inchjs": "./bin/inchjs"},
   "license": "MIT"
 }
