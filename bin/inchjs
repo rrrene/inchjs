@@ -10,5 +10,9 @@
     console.log("inchjs "+Inch.version)
   }
 
-  Inch.run(inch_args);
+  if( inch_args == '--report' ) {
+    Inch.report();
+  } else {
+    Inch.run(inch_args);
+  }
 })();
