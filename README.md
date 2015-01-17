@@ -55,21 +55,23 @@ Inch will suggest that the docs could be improved:
 
     # Properly documented, could be improved:
 
-    ┃  B  ↑  Foo#complicated
+    ┃  B  ↑  complicated
+    ┃  B  ↑  nothing
 
     # Undocumented:
 
-    ┃  U  ↑  Foo
-    ┃  U  ↗  Foo#filename
+    ┃  U  ↗  filename
 
     You might want to look at these files:
 
-    ┃ lib/foo.rb
+    ┃ lib/something.js
 
     Grade distribution (undocumented, C, B, A):  █  ▁ ▄ ▄
 
     Only considering priority objects: ↑ ↗ →  (use `--help` for options).
 
+
+If you have Inch installed it will run locally. If not, it will use the API of [inch-ci.org](http://inch-ci.org/) to display results. If you want to specify a certain Inch version you have installed (e.g. for testing), you can set the `INCH_PATH` environment variable.
 
 
 ## Configuration
