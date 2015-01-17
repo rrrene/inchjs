@@ -64,7 +64,7 @@ Inch will suggest that the docs could be improved:
 
     You might want to look at these files:
 
-    ┃ lib/something.js
+    ┃ src/something.js
 
     Grade distribution (undocumented, C, B, A):  █  ▁ ▄ ▄
 
@@ -269,28 +269,28 @@ Suggests places where a codebase suffers a lack of documentation.
 
     # Properly documented, could be improved:
 
-    ┃  B  ↑  Inch::CLI::Command::BaseList#prepare_list
-    ┃  B  ↑  Inch::CodeObject::Ruby::MethodParameterObject#initialize
-    ┃  B  ↗  Inch::CLI::Command::Stats#run
-    ┃  B  ↗  Inch::CLI::CommandParser#run
+    ┃  B  ↑  BaseList#prepare_list
+    ┃  B  ↑  MethodParameterObject#initialize
+    ┃  B  ↗  Stats#run
+    ┃  B  ↗  CommandParser#run
 
     # Not properly documented:
 
-    ┃  C  ↑  Inch::CodeObject::NodocHelper#implicit_nodoc_comment?
-    ┃  C  ↑  Inch::CLI::Command::Output::Suggest#initialize
-    ┃  C  ↑  Inch::Rake::Suggest#initialize
+    ┃  C  ↑  NodocHelper#implicit_nodoc_comment?
+    ┃  C  ↑  Suggest#initialize
+    ┃  C  ↑  Suggest#initialize
 
     # Undocumented:
 
-    ┃  U  ↑  Inch::Evaluation::ConstantObject#evaluate
-    ┃  U  ↑  Inch::Evaluation::MethodObject#evaluate
-    ┃  U  ↑  Inch::SourceParser#find_object
+    ┃  U  ↑  ConstantObject#evaluate
+    ┃  U  ↑  MethodObject#evaluate
+    ┃  U  ↑  SourceParser#find_object
 
     You might want to look at these files:
 
-    ┃ lib/inch/code_object/proxy/base.rb
-    ┃ lib/inch/code_object/proxy/method_object.rb
-    ┃ lib/inch/evaluation/role/object.rb
+    ┃ src/code_object/proxy/base.js
+    ┃ src/code_object/proxy/method_object.js
+    ┃ src/evaluation/role/object.js
 
     Grade distribution (undocumented, C, B, A):  █  ▃ ▁ ▄
 
@@ -344,7 +344,7 @@ Shows you details about what can be approved in a specific object.
 
     # Inch::SourceParser#find_object
 
-    ┃ -> lib/inch/source_parser.rb:16
+    ┃ -> src/inch/source_parser.js:16
     ┃ ------------------------------------------------------
     ┃ Grade: C - Needs work
     ┃ ------------------------------------------------------
@@ -364,25 +364,25 @@ Lists all objects in your codebase with their grades.
 
     # Seems really good
 
-    ┃  A  ↑  Inch::CLI::Command::Output::Console#object
-    ┃  A  ↗  Inch::CodeObject::Proxy#depth
-    ┃  A  ↗  Inch::CLI::Command::Base#description
-    ┃  A  ↗  Inch::CodeObject::NodocHelper#nodoc?
+    ┃  A  ↑  Console#object
+    ┃  A  ↗  Proxy#depth
+    ┃  A  ↗  Base#description
+    ┃  A  ↗  NodocHelper#nodoc?
     ┃ ...  (omitting 75 objects)
 
     # Proper documentation present
 
-    ┃  B  ↑  Inch::CLI::Command::Suggest#run
-    ┃  B  ↑  Inch::CodeObject::Ruby::MethodParameterObject#initialize
-    ┃  B  ↗  Inch::CLI::Command::Stats#run
-    ┃  B  ↗  Inch::CLI::CommandParser#run
+    ┃  B  ↑  Suggest#run
+    ┃  B  ↑  MethodParameterObject#initialize
+    ┃  B  ↗  Stats#run
+    ┃  B  ↗  CommandParser#run
 
     # Needs work
 
-    ┃  C  ↑  Inch::CodeObject::NodocHelper#implicit_nodoc_comment?
-    ┃  C  ↑  Inch::CLI::Command::Output::Console#initialize
-    ┃  C  ↑  Inch::Evaluation::ConstantObject#evaluate
-    ┃  C  ↑  Inch::SourceParser#find_object
+    ┃  C  ↑  NodocHelper#implicit_nodoc_comment
+    ┃  C  ↑  Console#initialize
+    ┃  C  ↑  ConstantObject#evaluate
+    ┃  C  ↑  SourceParser#find_object
     ┃ ...  (omitting 248 objects)
 
     This output omitted 323 objects. Use `--all` to display all objects.
