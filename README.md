@@ -204,7 +204,7 @@ These inline-docs below all score an `A` despite being written in different styl
  *  @param mode {String, null} optional String mode
  *  @return {Number, null}
  */
-var getBlobSize = function(filename, blob, mode = null) { }
+var getBlobSize = function(filename, blob, mode) { }
 ```
 
 ```javascript
@@ -223,7 +223,7 @@ var getBlobSize = function(filename, blob, mode = null) { }
  *
  *  Returns Number or null.
  */
-var getBlobSize = function(filename, blob, mode = null) { }
+var getBlobSize = function(filename, blob, mode) { }
 ```
 
 ```javascript
@@ -239,13 +239,13 @@ var getBlobSize = function(filename, blob, mode = null) { }
 //   // => some value
 //
 // Returns Number or null.
-var getBlobSize = function(filename, blob, mode = null) { }
+var getBlobSize = function(filename, blob, mode) { }
 ```
 
 But you don't have to adhere to any specific syntax. This gets an `A` as well:
 
 ```javascript
-// Returns the size of a +blob+ for a given +filename+.
+// Returns the size of a +blob+ for a given +filename+ (+mode+ is optional).
 //
 //   getBlobSize(filename, blob)
 //   // => some value
@@ -333,26 +333,6 @@ Shows you an overview of the codebase.
 
 
     Try `--format json|yaml` for raw numbers.
-
-
-
-### inchjs show
-
-Shows you details about what can be approved in a specific object.
-
-    $ inchjs show Inch::SourceParser#find_object
-
-    # Inch::SourceParser#find_object
-
-    ┃ -> src/inch/source_parser.js:16
-    ┃ ------------------------------------------------------
-    ┃ Grade: C - Needs work
-    ┃ ------------------------------------------------------
-    ┃ + Add a comment describing the method
-    ┃ + Describe the parameter 'path'
-    ┃ + Describe the return type of 'find_object'
-    ┃ + Add a code example (optional)
-    ┃ ------------------------------------------------------
 
 
 
