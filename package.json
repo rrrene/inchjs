@@ -3,7 +3,7 @@
   "name": "inchjs",
   "version": "0.2.0",
   "repository": {
-    "url": "https://github.com/rrrene/inch.js"
+    "url": "https://github.com/rrrene/inchjs"
   },
   "dependencies": {
     "shelljs": "0.3.0",
