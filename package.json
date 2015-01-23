@@ -1,13 +1,13 @@
 {
   "author": "René Föhring",
   "name": "inchjs",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "repository": {
     "url": "https://github.com/rrrene/inchjs"
   },
   "dependencies": {
     "shelljs": "0.3.0",
-    "jsdoc": "3.3.0-alpha10"
+    "jsdoc": "3.x"
   },
   "devDependencies": {},
   "optionalDependencies": {},
