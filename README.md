@@ -31,13 +31,13 @@ To run Inch, simply type
 Given a `lib` directory with the following code inside:
 
 ```javascript
-// A complicated method
+// A complicated function
 var complicated(o, i, args) = function {
   // ... snip ...
 }
 
 /**
- *  An example of a method that takes a parameter (+param1+)
+ *  An example of a function that takes a parameter (+param1+)
  *  and does nothing.
  *
  *  Returns null
@@ -107,7 +107,7 @@ Inch was created to help people document their code, therefore it may be more im
 * It does not aim for "fully documented" or "100% documentation coverage".
 * It does not tell you to document all your code (neither does it tell you not to).
 * It does not impose rules on how your documentation should look like.
-* It does not require that, e.g."every method's documentation should be a single line under 80 characters not ending in a period" or that "every class and module should provide a code example of their usage".
+* It does not require that, e.g."every function's documentation should be a single line under 80 characters not ending in a period" or that "every class and module should provide a code example of their usage".
 
 Inch takes a more relaxed approach towards documentation measurement and tries to show you places where your codebase *could* use more documentation.
 
@@ -115,7 +115,7 @@ Inch takes a more relaxed approach towards documentation measurement and tries t
 
 ### The Grade System
 
-Inch assigns grades to each class, module, constant or method in a codebase, based on how complete the docs are.
+Inch assigns grades to each class, module, constant or function in a codebase, based on how complete the docs are.
 
 The grades are:
 
@@ -136,13 +136,13 @@ The last point might be the most important one: If objects are undocumented, the
 
 ### Priorities ↑ ↓
 
-Every class, module, constant and method in a codebase is assigned a priority which reflects how important Inch thinks it is to be documented.
+Every module, constant and function in a codebase is assigned a priority which reflects how important Inch thinks it is to be documented.
 
 This process follows some reasonable rules, like
 
-* it is more important to document public methods than private ones
-* it is more important to document methods with many parameters than methods without parameters
-* it is not important to document objects marked as `:nodoc:`
+* it is more important to document public functions than private ones
+* it is more important to document functions with many parameters than functions without parameters
+* it is not important to document objects marked as `@private`
 
 Priorities are displayed as arrows. Arrows pointing north mark high priority objects, arrows pointing south mark low priority objects.
 
@@ -163,7 +163,7 @@ This tells you three things:
 
 * There is a significant amount of documentation present.
 * The present documentation seems good.
-* There are still undocumented methods.
+* There are still undocumented functions.
 
 Inch does not really tell you what to do from here. It suggests objects and
 files that could be improved to get a better rating, but that is all. This
@@ -270,7 +270,7 @@ Suggests places where a codebase suffers a lack of documentation.
     # Properly documented, could be improved:
 
     ┃  B  ↑  BaseList#prepare_list
-    ┃  B  ↑  MethodParameterObject#initialize
+    ┃  B  ↑  FunctionParameterObject#initialize
     ┃  B  ↗  Stats#run
     ┃  B  ↗  CommandParser#run
 
@@ -283,13 +283,13 @@ Suggests places where a codebase suffers a lack of documentation.
     # Undocumented:
 
     ┃  U  ↑  ConstantObject#evaluate
-    ┃  U  ↑  MethodObject#evaluate
+    ┃  U  ↑  FunctionObject#evaluate
     ┃  U  ↑  SourceParser#find_object
 
     You might want to look at these files:
 
     ┃ src/code_object/proxy/base.js
-    ┃ src/code_object/proxy/method_object.js
+    ┃ src/code_object/proxy/function_object.js
     ┃ src/evaluation/role/object.js
 
     Grade distribution (undocumented, C, B, A):  █  ▃ ▁ ▄
@@ -353,7 +353,7 @@ Lists all objects in your codebase with their grades.
     # Proper documentation present
 
     ┃  B  ↑  Suggest#run
-    ┃  B  ↑  MethodParameterObject#initialize
+    ┃  B  ↑  FunctionParameterObject#initialize
     ┃  B  ↗  Stats#run
     ┃  B  ↗  CommandParser#run
 
@@ -376,7 +376,7 @@ How you document your code is up to you and Inch can't actually tell you how goo
 
 It can't tell if your code examples work or if you described parameters
 correctly or if you have just added `# TODO: write docs` to each and every
-method.
+function.
 
 It is just a tool, that you can use to find parts in your codebase that are
 lacking documentation.
