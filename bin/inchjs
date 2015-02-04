@@ -9,9 +9,7 @@
 
   if( inch_args == '-v' || inch_args == '--version' ) {
     console.log("inchjs "+Inch.version)
-  }
-
-  if( inch_args == '--dry-run' ) {
+  } else if( inch_args == '--dry-run' ) {
     options.dry_run = true;
     inch_args = [];
   }
