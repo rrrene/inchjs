@@ -10,7 +10,9 @@
     "glob": "4.3.5",
     "jsdoc": "3.x"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "~2.1.0"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
@@ -18,7 +20,7 @@
   "description": "JS Wrapper for Inch for JavaScript",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "bin": {"inchjs": "./bin/inchjs"},
   "license": "MIT"
