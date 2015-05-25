@@ -6,9 +6,10 @@
     "url": "https://github.com/rrrene/inchjs"
   },
   "dependencies": {
-    "shelljs": "0.3.0",
     "glob": "4.3.5",
-    "jsdoc": "3.x"
+    "js-yaml": "^3.3.1",
+    "jsdoc": "3.x",
+    "shelljs": "0.3.0"
   },
   "devDependencies": {
     "mocha": "~2.1.0"
@@ -22,6 +23,8 @@
   "scripts": {
     "test": "mocha test"
   },
-  "bin": {"inchjs": "./bin/inchjs"},
+  "bin": {
+    "inchjs": "./bin/inchjs"
+  },
   "license": "MIT"
 }
