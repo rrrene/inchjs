@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es5",
+    "lib": ["es2015", "dom"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "noImplicitAny": false
+  },
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
