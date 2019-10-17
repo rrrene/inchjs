@@ -14,8 +14,11 @@
     "yargs-parser": "15.0.0"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.12",
-    "mocha": "6.2.1"
+    "choma": "^1.2.1",
+    "mocha": "6.2.1",
+    "ts-node": "^8.4.1"
   },
   "optionalDependencies": {},
   "engines": {
@@ -24,11 +27,13 @@
   "description": "JS Wrapper for Inch for JavaScript",
   "scripts": {
     "build": "tsc",
-    "test": "mocha test"
+    "test": "mocha -r ts-node/register -r choma \"src/**/*.test.ts\""
   },
   "bin": {
     "inchjs": "./bin/inchjs"
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "license": "MIT"
 }

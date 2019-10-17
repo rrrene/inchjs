@@ -1,4 +1,6 @@
 import { CodeObject, CodeObjectWithRoles, CodeObjectRole } from './contracts/code_object';
+import { getRolesForWithOrWithoutCodeExamples } from './roles/code_examples';
+import { getRolesForParametersWithOrWithoutMention } from './roles/parameters';
 
 export const ROLE_WITH_DOC = 'withDoc';
 export const ROLE_WITHOUT_DOC = 'withoutDoc';
@@ -13,8 +15,18 @@ export const ROLE_WITH_MANY_PARAMETERS = 'withManyParameters';
 export const ROLE_WITH_PARAMETERS = 'withParameters';
 export const ROLE_WITHOUT_PARAMETERS = 'withoutParameters';
 
+export const ROLE_WITH_PARAMETER_MENTION = 'withParameterMention';
+export const ROLE_WITHOUT_PARAMETER_MENTION = 'withoutParameterMention';
+
+export const ROLE_WITH_MULTIPLE_CODE_EXAMPLES = 'withMultipleCodeExamples';
+export const ROLE_WITH_CODE_EXAMPLE = 'withCodeExample';
+export const ROLE_WITHOUT_CODE_EXAMPLE = 'withoutCodeExample';
+
 export const ROLE_EXPORTED = 'exported';
 export const ROLE_NOT_EXPORTED = 'notExported';
+
+export const ROLE_MARKED_AS_PRIVATE = 'markedAsPrivate';
+export const ROLE_NOT_MARKED_AS_PRIVATE = 'notMarkedAsPrivate';
 
 export function addRoles(codeObjects: CodeObject[]): CodeObjectWithRoles[] {
   return codeObjects.map((codeObject) => {
@@ -29,20 +41,26 @@ export function hasRole(codeObject: CodeObjectWithRoles, id: string): boolean {
 }
 
 function getRoles(codeObject: CodeObject, allCodeObjects: CodeObject[]): CodeObjectRole[] {
-  const foundRules = [
+  const foundRoles = [
     // inRoot(codeObject),
     getRolesForWithOrWithoutDoc(codeObject),
-    // withOrWithoutCodeExample(codeObject),
+    getRolesForWithOrWithoutCodeExamples(codeObject),
     getRolesForChildren(codeObject),
     getRolesForParameters(codeObject),
-    getRolesForExported(codeObject)
-    // name(codeObject),
+    getRolesForExported(codeObject),
+    getRolesForPrivate(codeObject),
     // metadata(codeObject),
-    // functionParameterWithWithoutMention(codeObject)
+    getRolesForParametersWithOrWithoutMention(codeObject)
   ];
-  const roles = foundRules.filter((role: CodeObjectRole | null) => role != null);
+  const roles = flattenArray(foundRoles).filter((role: CodeObjectRole | null) => role != null);
 
   return roles as CodeObjectRole[];
+}
+
+function flattenArray(array: any[]): any[] {
+  return array.reduce(function(memo: any[], value: any) {
+    return memo.concat(Array.isArray(value) ? flattenArray(value) : value);
+  }, []);
 }
 
 function getRolesForWithOrWithoutDoc(codeObject: CodeObject): CodeObjectRole | null {
@@ -91,4 +109,15 @@ function getRolesForExported(codeObject: CodeObject): CodeObjectRole | null {
   const isExported = !!codeObject.metadata.isExported;
 
   return { id: isExported ? ROLE_EXPORTED : ROLE_NOT_EXPORTED };
+}
+
+function getRolesForPrivate(codeObject: CodeObject): CodeObjectRole | null {
+  const containsPrivateTag = containsTag(codeObject.doc, 'private') || containsTag(codeObject.doc, 'ignore');
+
+  return { id: containsPrivateTag ? ROLE_MARKED_AS_PRIVATE : ROLE_NOT_MARKED_AS_PRIVATE };
+}
+
+function containsTag(doc: string, name: string): boolean {
+  const regex = new RegExp(`^\s*\@${name}`, 'mg');
+  return doc.match(regex) != null;
 }

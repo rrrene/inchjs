@@ -1,11 +1,17 @@
 import { CodeObjectWithRoles, CodeObjectRole } from '../contracts/code_object';
-import { ROLE_WITH_MANY_PARAMETERS, ROLE_WITH_MANY_CHILDREN, ROLE_NOT_EXPORTED } from '../roles';
+import {
+  ROLE_WITH_MANY_PARAMETERS,
+  ROLE_WITH_MANY_CHILDREN,
+  ROLE_NOT_EXPORTED,
+  ROLE_MARKED_AS_PRIVATE
+} from '../roles';
 
 const ROLE_PRIORITIES = {};
 
 ROLE_PRIORITIES[ROLE_WITH_MANY_CHILDREN] = +2;
 ROLE_PRIORITIES[ROLE_WITH_MANY_PARAMETERS] = +2;
 ROLE_PRIORITIES[ROLE_NOT_EXPORTED] = -2;
+ROLE_PRIORITIES[ROLE_MARKED_AS_PRIVATE] = -4;
 
 export function getPriority(codeObject: CodeObjectWithRoles, allCodeObjects: CodeObjectWithRoles[]): number {
   return codeObject.roles.reduce((memo: number, role: CodeObjectRole) => {

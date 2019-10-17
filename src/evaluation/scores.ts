@@ -11,6 +11,10 @@ const ROLE_SCORES = {
       }
 
       return SCORES.withDocBase;
+    },
+    withParameterMention: (codeObject) => {
+      const parameterCount = codeObject.metadata.parameters.length;
+      return Math.floor(SCORES.parametersBase / parameterCount);
     }
   }
 };

@@ -48,7 +48,7 @@ export async function run(args: SuggestCliArgs) {
     (codeObject) => codeObject.priority >= 0
   );
 
-  const allCodeObjects = codeObjectsWithMinimumPriority;
+  const allCodeObjects = codeObjectsWithRolesAndEvaluation;
   const codeObjectsGroupedByGrade = groupByGrade(allCodeObjects);
   const codeObjectsGroupedByGradeToDisplay = limitPerGrade(codeObjectsGroupedByGrade, MAX_PER_GRADE);
 

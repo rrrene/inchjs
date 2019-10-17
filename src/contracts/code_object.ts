@@ -25,6 +25,7 @@ export type CodeObjectWithRolesAndEvalutation = CodeObjectWithRoles & {
   grade: CodeObjectGrade;
 };
 
+export const CODE_OBJECT_GRADE_NAMES = ['A', 'B', 'C', 'U'];
 export type CodeObjectGrade = 'A' | 'B' | 'C' | 'U';
 
 export type CodeObjectType = string;

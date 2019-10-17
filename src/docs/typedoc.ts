@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import * as sh from 'shelljs';
 import { CodeObjectLocation, CodeObject } from '../contracts/code_object';
+import { readCommentsFromFilePrecedingLine, removeCommentMarkers } from './comments';
 
 type TypedocObject = any;
 
@@ -85,7 +86,10 @@ function mapTypedocObject(typedocObject: TypedocObject, srcBasedir: string): Cod
 }
 
 function getDocString(location): string {
-  return readCommentsFromFilePrecedingLine(location.filename, location.line);
+  const comment = readCommentsFromFilePrecedingLine(location.filename, location.line);
+  const docString = removeCommentMarkers(comment);
+
+  return docString;
 }
 
 function getLocation(typedocObject: TypedocObject, srcBasedir: string): CodeObjectLocation | null {
@@ -169,27 +173,4 @@ function checkTypedocExistence() {
   } catch (e) {
     throw 'Could not find typedoc executable';
   }
-}
-
-function readCommentsFromFilePrecedingLine(filename: string, lineno: number): string {
-  const contents = fs.readFileSync(filename, 'utf-8').toString();
-  const comment = readCommentsFromStringPrecedingLine(contents, lineno);
-
-  return comment;
-}
-
-function readCommentsFromStringPrecedingLine(contents: string, lineno: number): string {
-  const lines = contents.split('\n');
-  let result: any[] = [];
-
-  for (var i = lineno - 2; i >= 0; i--) {
-    var line = lines[i];
-    if (line.match(/^\s*[\/\*]/)) {
-      result.unshift(line);
-    } else {
-      return result.join('\n');
-    }
-  }
-
-  return result.join('\n');
 }
