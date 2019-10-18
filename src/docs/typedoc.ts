@@ -5,17 +5,32 @@ import * as sh from 'shelljs';
 import { CodeObjectLocation, CodeObject } from '../contracts/code_object';
 import { readCommentsFromFilePrecedingLine, removeCommentMarkers } from './comments';
 
-type TypedocObject = any;
+/**
+ * Internal: Used by tests.
+ */
+export type TypedocObject = any;
 
 const outputFilename = '.inch.typedoc-output.json';
 
-export async function getTypedocOutputAsObjects(codeDir: string, typedoc_args): Promise<CodeObject[]> {
+export async function getTypedocOutputAsCodeObjects(codeDir: string, typedoc_args: any[]): Promise<CodeObject[]> {
+  // TODO: FIXME: this should NOT be hardcoded
+  const srcBasedir = path.resolve(codeDir);
+  const typedocObjectRoot = await getTypedocOutputAsTypedocObject(srcBasedir, typedoc_args);
+  const objects = mapAndReduceTypedocObjects(typedocObjectRoot, srcBasedir, []);
+
+  return objects;
+}
+
+/**
+ * Internal: Used by tests.
+ */
+export async function getTypedocOutputAsTypedocObject(
+  srcBasedir: string,
+  typedoc_args: any[] = []
+): Promise<TypedocObject[]> {
   checkTypedocExistence();
 
   typedoc_args = typedoc_args || [];
-
-  // TODO: FIXME: this should NOT be hardcoded
-  const srcBasedir = path.resolve(codeDir);
 
   const typedocOptions = `--ignoreCompilerErrors --json ${outputFilename}`;
   const cmd = `typedoc "${srcBasedir}" ${typedoc_args.join(' ')} ${typedocOptions}`;
@@ -25,22 +40,21 @@ export async function getTypedocOutputAsObjects(codeDir: string, typedoc_args): 
   return new Promise((resolve: Function, reject: Function) => {
     sh.exec(cmd, { silent: true });
     const data = fs.readFileSync(outputFilename).toString();
-    let typedocObjects;
+    let typedocRootObject;
 
     try {
-      typedocObjects = JSON.parse(data);
+      typedocRootObject = JSON.parse(data);
     } catch (e) {
-      console.error(data);
       reject(new Error('Parsing failed.'));
     }
-
-    const objects = mapAndReduceTypedocObjects(typedocObjects, srcBasedir, []);
-
-    resolve(objects);
+    resolve(typedocRootObject);
   });
 }
 
-function mapAndReduceTypedocObjects(obj, srcBasedir: string, memo: any[] = []): CodeObject[] {
+/**
+ * Internal: Used by tests.
+ */
+export function mapAndReduceTypedocObjects(obj, srcBasedir: string, memo: any[] = []): CodeObject[] {
   if (obj == null) {
     return [];
   }

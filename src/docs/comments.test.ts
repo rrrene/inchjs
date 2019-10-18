@@ -3,7 +3,7 @@ import { readCommentsFromStringPrecedingLine, removeCommentMarkers } from './com
 
 describe('readCommentsFromStringPrecedingLine()', () => {
   it('works with JSDoc style comments', () => {
-    const contents = `
+    const contents = `// Line no 1
     import something from 'somewhere';
 
     /**
@@ -20,12 +20,12 @@ describe('readCommentsFromStringPrecedingLine()', () => {
      *
      *     CodeExample.test()
      */`;
-    const result = readCommentsFromStringPrecedingLine(contents, 8);
+    const result = readCommentsFromStringPrecedingLine(contents, 9);
     assert.deepStrictEqual(result, comment);
   });
 
   it('works with JSDoc style comments which are beginning incorrectly', () => {
-    const contents = `
+    const contents = `// Line no 1
     import something from 'somewhere';
 
     /*
@@ -42,12 +42,12 @@ describe('readCommentsFromStringPrecedingLine()', () => {
      *
      *     CodeExample.test()
      */`;
-    const result = readCommentsFromStringPrecedingLine(contents, 8);
+    const result = readCommentsFromStringPrecedingLine(contents, 9);
     assert.deepStrictEqual(result, comment);
   });
 
   it('works with standard multiline comments', () => {
-    const contents = `
+    const contents = `// Line no 1
     import something from 'somewhere';
 
     /*
@@ -64,12 +64,12 @@ describe('readCommentsFromStringPrecedingLine()', () => {
 
          CodeExample.test()
     */`;
-    const result = readCommentsFromStringPrecedingLine(contents, 8);
+    const result = readCommentsFromStringPrecedingLine(contents, 9);
     assert.deepStrictEqual(result, comment);
   });
 
   it('works with standard line comments', () => {
-    const contents = `
+    const contents = `// Line no 1
     import something from 'somewhere';
 
     //
@@ -86,7 +86,7 @@ describe('readCommentsFromStringPrecedingLine()', () => {
     //
     //     CodeExample.test()
     //`;
-    const result = readCommentsFromStringPrecedingLine(contents, 8);
+    const result = readCommentsFromStringPrecedingLine(contents, 9);
     assert.deepStrictEqual(result, comment);
   });
 });
