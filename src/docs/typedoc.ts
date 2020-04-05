@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import * as sh from 'shelljs';
+
 import { CodeObjectLocation, CodeObject } from '../contracts/code_object';
 import { readCommentsFromFilePrecedingLine, removeCommentMarkers } from './comments';
 
@@ -35,7 +36,7 @@ export async function getTypedocOutputAsTypedocObject(
   const typedocOptions = `--ignoreCompilerErrors --json ${outputFilename}`;
   const cmd = `typedoc "${srcBasedir}" ${typedoc_args.join(' ')} ${typedocOptions}`;
 
-  // console.log(cmd);
+  // console.log(`Executing: ${cmd}`);
 
   return new Promise((resolve: Function, reject: Function) => {
     sh.exec(cmd, { silent: true });
@@ -119,7 +120,7 @@ function getLocation(typedocObject: TypedocObject, srcBasedir: string): CodeObje
   const result = {
     filename: path.join(srcBasedir, originalLocation.fileName),
     line: originalLocation.line,
-    column: originalLocation.character
+    column: originalLocation.character,
   };
 
   return result;

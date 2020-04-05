@@ -25,11 +25,11 @@ function outputJson(commandResult: SuggestCommandResult): void {
         A: deleteMetadataFromCodeObjects(commandResult.codeObjectsByGrades.A),
         B: deleteMetadataFromCodeObjects(commandResult.codeObjectsByGrades.B),
         C: deleteMetadataFromCodeObjects(commandResult.codeObjectsByGrades.C),
-        U: deleteMetadataFromCodeObjects(commandResult.codeObjectsByGrades.U)
+        U: deleteMetadataFromCodeObjects(commandResult.codeObjectsByGrades.U),
       },
       filenames: commandResult.filenames,
-      gradeDistribution: commandResult.gradeDistribution
-    }
+      gradeDistribution: commandResult.gradeDistribution,
+    },
   };
   const output = JSON.stringify(data, null, 2);
 
@@ -46,8 +46,8 @@ function deleteMetadataFromCodeObjects(codeObjects: CodeObjectWithRolesAndEvalut
 
 function outputText(commandResult: SuggestCommandResult, isStrict: boolean): void {
   outputGradeSections(commandResult);
-  outputIssueHint();
   outputFilenames(commandResult.filenames);
+  outputIssueHint();
   outputGradeDistribution(commandResult);
   if (!isStrict) {
     outputPriorityHint();

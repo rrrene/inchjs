@@ -3,4 +3,5 @@ docs.json
 *.log
 dist
 .inch.*.json
+.inch.*.js
 .inch.*.ts

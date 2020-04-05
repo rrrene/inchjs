@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { CodeObjectWithRolesAndEvalutation, CodeObjectWithRoles } from '../contracts/code_object';
+import { CodeObjectWithRolesAndEvalutation } from '../contracts/code_object';
 
 import { getDocs } from '../docs';
 import { addRoles } from '../roles';
@@ -45,10 +45,11 @@ export async function run(args: SuggestCliArgs) {
   // TODO: hook to add more evaluation
 
   const codeObjectsWithMinimumPriority = codeObjectsWithRolesAndEvaluation.filter(
-    (codeObject) => codeObject.priority >= 0
+    // TODO: implement me
+    (codeObject) => codeObject.priority >= -999
   );
 
-  const allCodeObjects = codeObjectsWithRolesAndEvaluation;
+  const allCodeObjects = codeObjectsWithMinimumPriority;
   const codeObjectsGroupedByGrade = groupByGrade(allCodeObjects);
   const codeObjectsGroupedByGradeToDisplay = limitPerGrade(codeObjectsGroupedByGrade, MAX_PER_GRADE);
 

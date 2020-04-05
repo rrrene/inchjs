@@ -7,7 +7,7 @@ type CommandHandler = any;
 
 const COMMAND_HANDLER = {
   info: InfoCommand,
-  suggest: SuggestCommand
+  suggest: SuggestCommand,
 };
 const DEFAULT_COMMAND = SuggestCommand;
 

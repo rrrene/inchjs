@@ -1,10 +1,15 @@
-import { getTypedocOutputAsCodeObjects } from './docs/typedoc';
 import { CodeObject } from './contracts/code_object';
+
+import { getJsdocOutputAsCodeObjects } from './docs/jsdoc';
+import { getTypedocOutputAsCodeObjects } from './docs/typedoc';
 
 const IGNORED_TYPES = ['module', 'variable'];
 
 export async function getDocs(codeDir: string, args: any[]): Promise<CodeObject[]> {
-  const allCodeObjects = await getTypedocOutputAsCodeObjects(codeDir, args);
+  const javascriptCodeObjects = await getJsdocOutputAsCodeObjects(codeDir, args);
+  const typescriptCodeObjects = await getTypedocOutputAsCodeObjects(codeDir, args);
+
+  const allCodeObjects = javascriptCodeObjects.concat(typescriptCodeObjects);
 
   return filterCodeObjects(allCodeObjects);
 }
