@@ -56,7 +56,7 @@ export async function run(args: SuggestCliArgs) {
   const commandResult: SuggestCommandResult = {
     codeObjectsByGrades: codeObjectsGroupedByGradeToDisplay,
     filenames: getFilenames(allCodeObjects),
-    gradeDistribution: getGradeDistribution(codeObjectsGroupedByGrade)
+    gradeDistribution: getGradeDistribution(codeObjectsGroupedByGrade),
   };
 
   output(commandResult, args.format, !!args.strict);
@@ -75,7 +75,7 @@ function getGradeDistribution(groupedCodeObjects: CodeObjectsGroupedByGrade): Co
     A: groupedCodeObjects.A.length,
     B: groupedCodeObjects.B.length,
     C: groupedCodeObjects.C.length,
-    U: groupedCodeObjects.U.length
+    U: groupedCodeObjects.U.length,
   };
 }
 
@@ -123,7 +123,7 @@ function limitPerGrade(groupedCodeObjects: CodeObjectsGroupedByGrade, limit: num
     A: sortByPrioAndLimit(groupedCodeObjects.A, limit),
     B: sortByPrioAndLimit(groupedCodeObjects.B, limit),
     C: sortByPrioAndLimit(groupedCodeObjects.C, limit),
-    U: sortByPrioAndLimit(groupedCodeObjects.U, limit)
+    U: sortByPrioAndLimit(groupedCodeObjects.U, limit),
   };
 }
 

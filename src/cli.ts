@@ -1,5 +1,6 @@
 import * as InfoCommand from './commands/InfoCommand';
 import * as SuggestCommand from './commands/suggest';
+import * as ExplainCommand from './commands/explain';
 
 const yargsParser = require('yargs-parser');
 
@@ -8,6 +9,7 @@ type CommandHandler = any;
 const COMMAND_HANDLER = {
   info: InfoCommand,
   suggest: SuggestCommand,
+  explain: ExplainCommand,
 };
 const DEFAULT_COMMAND = SuggestCommand;
 
@@ -31,8 +33,7 @@ function determine_command(argv): CommandHandler {
   const firstArg = argv[0];
 
   if (isFilenameWithLineNumber(firstArg)) {
-    console.error('explain command not yet implemented');
-    process.exit(1);
+    return COMMAND_HANDLER.explain;
   }
 
   return COMMAND_HANDLER[firstArg] || DEFAULT_COMMAND;
