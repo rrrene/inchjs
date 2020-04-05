@@ -16,8 +16,8 @@ const DEFAULT_COMMAND = SuggestCommand;
  *
  */
 export async function main(argv) {
-  const args = yargsParser(argv, { alias: { help: ['h'] } });
   const commandHandler = determine_command(argv);
+  const args = yargsParser(argv, { alias: { help: ['h'] } });
 
   if (commandHandler == null) {
     console.error('Could not find command handler.');
@@ -30,5 +30,23 @@ export async function main(argv) {
 function determine_command(argv): CommandHandler {
   const firstArg = argv[0];
 
+  if (isFilenameWithLineNumber(firstArg)) {
+    console.error('explain command not yet implemented');
+    process.exit(1);
+  }
+
   return COMMAND_HANDLER[firstArg] || DEFAULT_COMMAND;
+}
+
+/**
+ * Internal: used by cli module.
+ */
+export function isFilenameWithLineNumber(filename: string): boolean {
+  if (filename == null) {
+    return false;
+  }
+
+  const colonAndNumberAtTheEnd = filename.match(/\:\d+$/) != null;
+
+  return colonAndNumberAtTheEnd;
 }
