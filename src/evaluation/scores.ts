@@ -20,8 +20,8 @@ const ROLE_SCORES = {
     withReturnType: 10,
     withCodeExample: 10,
     withMultipleCodeExamples: 25,
-    withMetadata: 20
-  }
+    withMetadata: 20,
+  },
 };
 
 const SCORES = {
@@ -32,7 +32,7 @@ const SCORES = {
   returnType: 10,
   withCodeExample: 10,
   withMultipleCodeExamples: 25,
-  withMetadata: 20
+  withMetadata: 20,
 };
 
 export function getScore(codeObject: CodeObjectWithRoles, allCodeObjects: CodeObjectWithRoles[]): number {
@@ -41,7 +41,7 @@ export function getScore(codeObject: CodeObjectWithRoles, allCodeObjects: CodeOb
   }, 0);
 }
 
-function getRoleScore(type: string, role: CodeObjectRole, codeObject: CodeObjectWithRoles): number {
+export function getRoleScore(type: string, role: CodeObjectRole, codeObject: CodeObjectWithRoles): number {
   const prioMap = ROLE_SCORES[type];
   if (prioMap) {
     const scorer = prioMap[role.id];

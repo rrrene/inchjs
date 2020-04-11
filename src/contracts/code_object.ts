@@ -1,15 +1,3 @@
-// %{
-//   "name" => item["name"],
-//   "location" => item["location"],
-//   "type" => item["type"],
-//   "metadata" => item["metadata"],
-//   "doc" => item["doc"],
-//   "score" => score,
-//   "grade" => grade,
-//   "priority" => priority,
-//   "roles" => roles
-// }
-
 export type CodeObject = {
   name: string;
   location: CodeObjectLocation;
@@ -33,6 +21,8 @@ export type CodeObjectMetadata = any;
 export type CodeObjectRole = {
   id: string;
   metadata?: any;
+  score?: number;
+  potentialScore?: number;
 };
 export type CodeObjectLocation = {
   filename: string;

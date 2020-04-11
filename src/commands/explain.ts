@@ -4,8 +4,9 @@ import * as path from 'path';
 import { getDocs } from '../docs';
 import { addRoles } from '../roles';
 import { addEvaluation } from '../evaluation';
-import { CodeObjectWithRolesAndEvalutation, CodeObjectLocation } from '../contracts/code_object';
+import { CodeObjectWithRolesAndEvalutation, CodeObjectLocation, CodeObjectRole } from '../contracts/code_object';
 import { output } from './explain_output';
+import { getRoleScore } from '../evaluation/scores';
 
 type ExplainCliArgs = any;
 
@@ -32,15 +33,35 @@ export async function run(args: ExplainCliArgs) {
   );
 
   const allCodeObjects = codeObjectsWithMinimumPriority;
-  const codeObjectsToExplain = allCodeObjects.filter((codeObject: CodeObjectWithRolesAndEvalutation) =>
-    matchesLocation(codeObject.location, location)
-  );
+  const codeObjectsToExplain = allCodeObjects
+    .filter((codeObject: CodeObjectWithRolesAndEvalutation) => matchesLocation(codeObject.location, location))
+    .map((codeObject: CodeObjectWithRolesAndEvalutation) => addScoreExplanation(codeObject));
 
   const commandResult: ExplainCommandResult = {
     codeObjects: codeObjectsToExplain,
   };
 
   output(commandResult, args.format);
+}
+
+function addScoreExplanation(codeObject: CodeObjectWithRolesAndEvalutation) {
+  return {
+    ...codeObject,
+    roles: codeObject.roles.map((role: CodeObjectRole) => addScoreExplanationToRole(role, codeObject)),
+  };
+}
+
+function addScoreExplanationToRole(role: CodeObjectRole, codeObject: CodeObjectWithRolesAndEvalutation) {
+  const score = getRoleScore(codeObject.type, role, codeObject);
+  let potentialScore = 0;
+
+  const isRoleWithPotentialScore = role.id.startsWith('without');
+  if (isRoleWithPotentialScore) {
+    const roleWithPotential = { ...role, id: role.id.replace(/^without/, 'with') };
+    potentialScore = getRoleScore(codeObject.type, roleWithPotential, codeObject);
+  }
+
+  return { ...role, score, potentialScore };
 }
 
 function matchesLocation(codeObjectLocation: CodeObjectLocation, locationAsString: string): boolean {
