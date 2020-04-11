@@ -1,3 +1,5 @@
+import { relative } from 'path';
+
 import chalk from 'chalk';
 
 import { ExplainCommandResult } from './explain';
@@ -18,7 +20,6 @@ import {
   ROLE_WITH_CODE_EXAMPLE,
   ROLE_WITHOUT_CODE_EXAMPLE,
 } from '../roles';
-import { relative } from 'path';
 
 type RoleExplanation = {
   title: string;

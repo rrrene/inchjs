@@ -4,7 +4,7 @@ import chalk from 'chalk';
 
 import { SuggestCommandResult } from './suggest';
 import { getPriorityArrow } from '../evaluation/priorities';
-import { getDecriptionForGrade, getColorizeFunForGrade } from '../evaluation/grades';
+import { getDecriptionForGrade, getColorizeFunForGrade, getGradeBgAnsiColor } from '../evaluation/grades';
 import { sparkline } from '../sparkline';
 
 import { CodeObjectGrade, CodeObjectWithRolesAndEvalutation, CODE_OBJECT_GRADE_NAMES } from '../contracts/code_object';
@@ -49,6 +49,7 @@ function outputText(commandResult: SuggestCommandResult, isStrict: boolean): voi
   outputFilenames(commandResult.filenames);
   outputIssueHint();
   outputGradeDistribution(commandResult);
+
   if (!isStrict) {
     outputPriorityHint();
   }
@@ -66,11 +67,15 @@ function outputGradeSections(commandResult: SuggestCommandResult): void {
       return;
     }
 
-    const gradeDescription = getDecriptionForGrade(grade as CodeObjectGrade);
+    const gradeDescription = getDecriptionForGrade(grade);
     const colorizeFun = getColorizeFunForGrade(grade);
+    const bgAnsiColor = getGradeBgAnsiColor(grade) || 0;
 
     console.log('');
-    console.log(colorizeFun(`# ${gradeDescription}`));
+    console.log(
+      chalk.bgAnsi256(bgAnsiColor).ansi256(bgAnsiColor)(`#`) +
+        chalk.bgAnsi256(bgAnsiColor).black(` ${gradeDescription}`.padEnd(80))
+    );
     console.log(colorizeFun(`${EDGE}`));
     codeObjectsForGrade.forEach((codeObject: CodeObjectWithRolesAndEvalutation) => {
       const grade = `[${codeObject.grade}]`;

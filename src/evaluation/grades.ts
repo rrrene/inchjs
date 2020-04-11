@@ -3,29 +3,42 @@ import chalk from 'chalk';
 import { CodeObjectGrade } from '../contracts/code_object';
 
 export function getColorizeFunForGrade(grade: string): Function {
-  const color = getGradeColor(grade as CodeObjectGrade);
-  if (color == null) {
+  const ansiColor = getGradeAnsiColor(grade);
+  if (ansiColor == null) {
     return chalk.reset;
   }
 
-  const defaultTerminalColorFun = chalk[color];
-
-  return defaultTerminalColorFun || chalk.keyword(color);
+  return chalk.ansi256(ansiColor);
 }
 
 /**
  * Returns the color for the given `grade`.
  */
-export function getGradeColor(grade: CodeObjectGrade): string | null {
+export function getGradeAnsiColor(grade: string): number | null {
   switch (grade) {
     case 'A':
-      return 'green';
+      return 34; // 'green'
     case 'B':
-      return 'yellow';
+      return 220; // 'yellow';
     case 'C':
-      return 'red';
+      return 196; // 'red';
     case 'U':
-      return 'mediumorchid';
+      return 141; // 'mediumorchid';
+  }
+
+  return null;
+}
+
+export function getGradeBgAnsiColor(grade: string): number | null {
+  switch (grade) {
+    case 'A':
+      return 34; // 'green'
+    case 'B':
+      return 220; // 'yellow';
+    case 'C':
+      return 196; // 'red';
+    case 'U':
+      return 141; // 'mediumorchid';
   }
 
   return null;
@@ -60,7 +73,7 @@ export function getGrade(score: number): CodeObjectGrade {
 /**
  * Returns the description for the given `grade`.
  */
-export function getDecriptionForGrade(grade: CodeObjectGrade): string {
+export function getDecriptionForGrade(grade: string): string | null {
   switch (grade) {
     case 'A':
       return 'Seems really good';
@@ -71,4 +84,6 @@ export function getDecriptionForGrade(grade: CodeObjectGrade): string {
     case 'U':
       return 'Undocumented';
   }
+
+  return null;
 }
