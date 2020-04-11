@@ -50,7 +50,7 @@ function getRoles(codeObject: CodeObject, allCodeObjects: CodeObject[]): CodeObj
     getRolesForExported(codeObject),
     getRolesForPrivate(codeObject),
     // metadata(codeObject),
-    getRolesForParametersWithOrWithoutMention(codeObject)
+    getRolesForParametersWithOrWithoutMention(codeObject),
   ];
   const roles = flattenArray(foundRoles).filter((role: CodeObjectRole | null) => role != null);
 
@@ -58,7 +58,7 @@ function getRoles(codeObject: CodeObject, allCodeObjects: CodeObject[]): CodeObj
 }
 
 function flattenArray(array: any[]): any[] {
-  return array.reduce(function(memo: any[], value: any) {
+  return array.reduce(function (memo: any[], value: any) {
     return memo.concat(Array.isArray(value) ? flattenArray(value) : value);
   }, []);
 }

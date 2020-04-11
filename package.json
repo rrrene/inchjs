@@ -18,6 +18,7 @@
     "@types/node": "^12.7.12",
     "choma": "^1.2.1",
     "mocha": "6.2.1",
+    "prettier": "^2.0.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
