@@ -5,7 +5,7 @@ import { getRolesForParametersWithOrWithoutMention } from './roles/parameters';
 export const ROLE_WITH_DOC = 'withDoc';
 export const ROLE_WITHOUT_DOC = 'withoutDoc';
 
-const THRESHOLD_WITH_MANY_CHILDREN = 20;
+const THRESHOLD_WITH_MANY_CHILDREN = 15;
 export const ROLE_WITH_MANY_CHILDREN = 'withManyChildren';
 export const ROLE_WITH_CHILDREN = 'withChildren';
 export const ROLE_WITHOUT_CHILDREN = 'withoutChildren';
@@ -21,6 +21,10 @@ export const ROLE_WITHOUT_PARAMETER_MENTION = 'withoutParameterMention';
 export const ROLE_WITH_MULTIPLE_CODE_EXAMPLES = 'withMultipleCodeExamples';
 export const ROLE_WITH_CODE_EXAMPLE = 'withCodeExample';
 export const ROLE_WITHOUT_CODE_EXAMPLE = 'withoutCodeExample';
+
+export const ROLE_IS_CLASS = 'isClass';
+export const ROLE_IS_METHOD = 'isMethod';
+export const ROLE_IS_FUNCTION = 'isFunction';
 
 export const ROLE_EXPORTED = 'exported';
 export const ROLE_NOT_EXPORTED = 'notExported';
@@ -43,6 +47,7 @@ export function hasRole(codeObject: CodeObjectWithRoles, id: string): boolean {
 function getRoles(codeObject: CodeObject, allCodeObjects: CodeObject[]): CodeObjectRole[] {
   const foundRoles = [
     // inRoot(codeObject),
+    getRolesForType(codeObject),
     getRolesForWithOrWithoutDoc(codeObject),
     getRolesForWithOrWithoutCodeExamples(codeObject),
     getRolesForChildren(codeObject),
@@ -61,6 +66,19 @@ function flattenArray(array: any[]): any[] {
   return array.reduce(function (memo: any[], value: any) {
     return memo.concat(Array.isArray(value) ? flattenArray(value) : value);
   }, []);
+}
+
+function getRolesForType(codeObject: CodeObject): CodeObjectRole | null {
+  switch (codeObject.type) {
+    case 'class':
+      return { id: ROLE_IS_CLASS };
+    case 'method':
+      return { id: ROLE_IS_METHOD };
+    case 'function':
+      return { id: ROLE_IS_FUNCTION };
+    default:
+      return null;
+  }
 }
 
 function getRolesForWithOrWithoutDoc(codeObject: CodeObject): CodeObjectRole | null {

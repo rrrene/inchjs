@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import * as sh from 'shelljs';
+import chalk from 'chalk';
 
 import { CodeObjectLocation, CodeObject } from '../contracts/code_object';
 import { readCommentsFromFilePrecedingLine, removeCommentMarkers } from './comments';
@@ -30,20 +31,29 @@ export async function getJsdocOutputAsObjects(srcBasedir: string, jsdoc_args: st
   // console.log(`Executing: ${cmd}`);
 
   return new Promise((resolve: Function, reject: Function) => {
-    var child = sh.exec(cmd, { silent: true, async: true });
-    var output = '';
+    let child = sh.exec(`${cmd} 2>&1`, { silent: true, async: true });
+    let output = '';
+
     child.stdout.on('data', function (data) {
       output += data;
     });
+
     child.stdout.on('close', function () {
+      let objects: any = null;
       try {
-        var objects = JSON.parse(output);
+        objects = JSON.parse(output);
       } catch (e) {
-        console.error(output);
+        const noFilesFound = output.trim() === 'There are no input files to process.';
+        if (noFilesFound) {
+          resolve([]);
+          return;
+        }
+
+        console.error(chalk.red(output));
         reject(new Error('Parsing failed.'));
       }
 
-      var data = objects;
+      let data = objects;
       fs.writeFileSync(JSDOC_OUTPUT_FILENAME, JSON.stringify(data, null, 2));
 
       resolve(objects);

@@ -11,7 +11,8 @@ import { readCommentsFromFilePrecedingLine, removeCommentMarkers } from './comme
  */
 export type TypedocObject = any;
 
-const outputFilename = '.inch.typedoc-output.json';
+const OUTPUT_FILENAME = '.inch.typedoc-output.json';
+const CHILDREN_KIND_STRINGS = ['Method', 'Function'];
 
 export async function getTypedocOutputAsCodeObjects(codeDir: string, typedoc_args: any[]): Promise<CodeObject[]> {
   // TODO: FIXME: this should NOT be hardcoded
@@ -33,14 +34,14 @@ export async function getTypedocOutputAsTypedocObject(
 
   typedoc_args = typedoc_args || [];
 
-  const typedocOptions = `--ignoreCompilerErrors --json ${outputFilename}`;
+  const typedocOptions = `--ignoreCompilerErrors --json ${OUTPUT_FILENAME}`;
   const cmd = `typedoc "${srcBasedir}" ${typedoc_args.join(' ')} ${typedocOptions}`;
 
   // console.log(`Executing: ${cmd}`);
 
   return new Promise((resolve: Function, reject: Function) => {
     sh.exec(cmd, { silent: true });
-    const data = fs.readFileSync(outputFilename).toString();
+    const data = fs.readFileSync(OUTPUT_FILENAME).toString();
     let typedocRootObject;
 
     try {
@@ -94,7 +95,13 @@ function mapTypedocObject(typedocObject: TypedocObject, srcBasedir: string): Cod
   const doc = getDocString(location);
   const parameters = getParameters(typedocObject);
   const isTyped = objectIsTyped(typedocObject);
-  const childrenCount = -1;
+  let childrenCount = -1;
+
+  if (Array.isArray(typedocObject.children)) {
+    const relevantChildren = typedocObject.children.filter((obj) => CHILDREN_KIND_STRINGS.includes(obj.kindString));
+    childrenCount = relevantChildren.length;
+  }
+
   const metadata = { isExported, parameters, isTyped, childrenCount };
 
   return { name, type, doc, location, metadata };

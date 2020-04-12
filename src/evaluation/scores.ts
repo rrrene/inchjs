@@ -22,6 +22,19 @@ const ROLE_SCORES = {
     withMultipleCodeExamples: 25,
     withMetadata: 20,
   },
+
+  class: {
+    withDoc: (codeObject) => {
+      if (hasRole(codeObject, 'withoutParameters')) {
+        return SCORES.withDocBase + SCORES.parametersBase;
+      }
+
+      return SCORES.withDocBase;
+    },
+    withCodeExample: 10,
+    withMultipleCodeExamples: 25,
+    withMetadata: 20,
+  },
 };
 
 const SCORES = {

@@ -23,6 +23,7 @@ export type CodeObjectRole = {
   metadata?: any;
   score?: number;
   potentialScore?: number;
+  priority?: number;
 };
 export type CodeObjectLocation = {
   filename: string;

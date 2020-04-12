@@ -4,11 +4,15 @@ import {
   ROLE_WITH_MANY_CHILDREN,
   ROLE_NOT_EXPORTED,
   ROLE_MARKED_AS_PRIVATE,
+  ROLE_IS_CLASS,
+  ROLE_IS_FUNCTION,
 } from '../roles';
 
 const ROLE_PRIORITIES = {};
 
 ROLE_PRIORITIES[ROLE_WITH_MANY_CHILDREN] = +2;
+ROLE_PRIORITIES[ROLE_IS_CLASS] = +2;
+ROLE_PRIORITIES[ROLE_IS_FUNCTION] = +1;
 ROLE_PRIORITIES[ROLE_WITH_MANY_PARAMETERS] = +2;
 ROLE_PRIORITIES[ROLE_NOT_EXPORTED] = -2;
 ROLE_PRIORITIES[ROLE_MARKED_AS_PRIVATE] = -4;
@@ -36,7 +40,7 @@ export function getPriorityArrow(priority: number): string {
   return '\u2193';
 }
 
-function getRolePriority(type: string, role: CodeObjectRole): number {
+export function getRolePriority(type: string, role: CodeObjectRole): number {
   const scorer = ROLE_PRIORITIES[role.id];
   if (typeof scorer === 'number') {
     return scorer;

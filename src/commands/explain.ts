@@ -7,6 +7,7 @@ import { addEvaluation } from '../evaluation';
 import { CodeObjectWithRolesAndEvalutation, CodeObjectLocation, CodeObjectRole } from '../contracts/code_object';
 import { output } from './explain_output';
 import { getRoleScore } from '../evaluation/scores';
+import { getRolePriority } from '../evaluation/priorities';
 
 type ExplainCliArgs = any;
 
@@ -47,11 +48,12 @@ export async function run(args: ExplainCliArgs) {
 function addScoreExplanation(codeObject: CodeObjectWithRolesAndEvalutation) {
   return {
     ...codeObject,
-    roles: codeObject.roles.map((role: CodeObjectRole) => addScoreExplanationToRole(role, codeObject)),
+    roles: codeObject.roles.map((role: CodeObjectRole) => addPriorityAndScoreExplanationToRole(role, codeObject)),
   };
 }
 
-function addScoreExplanationToRole(role: CodeObjectRole, codeObject: CodeObjectWithRolesAndEvalutation) {
+function addPriorityAndScoreExplanationToRole(role: CodeObjectRole, codeObject: CodeObjectWithRolesAndEvalutation) {
+  const priority = getRolePriority(codeObject.type, role);
   const score = getRoleScore(codeObject.type, role, codeObject);
   let potentialScore = 0;
 
@@ -61,7 +63,7 @@ function addScoreExplanationToRole(role: CodeObjectRole, codeObject: CodeObjectW
     potentialScore = getRoleScore(codeObject.type, roleWithPotential, codeObject);
   }
 
-  return { ...role, score, potentialScore };
+  return { ...role, priority, score, potentialScore };
 }
 
 function matchesLocation(codeObjectLocation: CodeObjectLocation, locationAsString: string): boolean {

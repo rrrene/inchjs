@@ -63,6 +63,10 @@ function outputGradeSections(commandResult: SuggestCommandResult): void {
   Object.keys(codeObjectsToDisplay).forEach((grade) => {
     const codeObjectsForGrade = codeObjectsToDisplay[grade];
 
+    if (grade === 'A') {
+      return;
+    }
+
     if (codeObjectsForGrade.length === 0) {
       return;
     }

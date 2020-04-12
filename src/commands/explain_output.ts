@@ -19,11 +19,15 @@ import {
   ROLE_WITH_MULTIPLE_CODE_EXAMPLES,
   ROLE_WITH_CODE_EXAMPLE,
   ROLE_WITHOUT_CODE_EXAMPLE,
+  ROLE_IS_METHOD,
+  ROLE_IS_FUNCTION,
+  ROLE_IS_CLASS,
 } from '../roles';
 
 type RoleExplanation = {
   title: string;
   score: string;
+  priority: string;
 };
 
 const DEFAULT_TITLE = 'DEFAULT_TITLE';
@@ -49,7 +53,7 @@ function outputTextFor(codeObject: CodeObjectWithRolesAndEvalutation): void {
   const relativeFilename = relative(process.cwd(), codeObject.location.filename);
 
   console.log(chalk.bgAnsi256(214).ansi256(214)(`#`) + chalk.bgAnsi256(214).gray.dim(` ${codeObject.name}`.padEnd(80)));
-  console.log(chalk.ansi256(214)(`${EDGE} `) + chalk.dim(`${relativeFilename}:${codeObject.location.line}`));
+  console.log(chalk.ansi256(214)(`${EDGE} `) + chalk.gray(`${relativeFilename}:${codeObject.location.line}`));
   console.log(
     chalk.yellow.dim(`${EDGE} -------------------------------------------------------------------------------`)
   );
@@ -61,7 +65,9 @@ function explainRoles(codeObject: CodeObjectWithRolesAndEvalutation): void {
   const roleExplanations = codeObject.roles
     .filter(
       (role: CodeObjectRole) =>
-        (role.score != null && role.score > 0) || (role.potentialScore != null && role.potentialScore > 0)
+        role.priority !== 0 ||
+        (role.score != null && role.score > 0) ||
+        (role.potentialScore != null && role.potentialScore > 0)
     )
     .map((role: CodeObjectRole): RoleExplanation => getRoleExplanation(role));
 
@@ -72,36 +78,49 @@ function explainRoles(codeObject: CodeObjectWithRolesAndEvalutation): void {
   const titleColumnWidth = Math.max(DEFAULT_TITLE_COLUMN_WIDTH, longestLabelLength);
 
   roleExplanations.forEach((roleExplanation: RoleExplanation) => {
-    explainRole(roleExplanation, longestLabelLength);
+    explainRole(roleExplanation, titleColumnWidth);
   });
 
   console.log(
     chalk.yellow.dim(`${EDGE} -------------------------------------------------------------------------------`)
   );
 
-  const title = 'Score (min: 0, max: 100)';
+  const title = 'Score (min: 0, max: 100) / priority (↑↓)';
   const scoreTotal = `${codeObject.score}`;
-  console.log(chalk.yellow.dim(`${EDGE} `) + chalk.dim(title.padEnd(titleColumnWidth) + scoreTotal.padStart(8)));
+  const priorityTotal = `${codeObject.priority}`;
+
+  console.log(
+    chalk.yellow.dim(`${EDGE} `) +
+      chalk.gray(title.padEnd(titleColumnWidth) + scoreTotal.padStart(8) + priorityTotal.padStart(8))
+  );
   console.log(chalk.yellow.dim(`${EDGE}`));
 }
 
 function explainRole(roleExplanation: RoleExplanation, titleColumnWidth: number): void {
-  const { title, score } = roleExplanation;
+  const { title, score, priority } = roleExplanation;
 
-  console.log(chalk.yellow.dim(`${EDGE} `) + chalk.dim(title.padEnd(titleColumnWidth) + score.padStart(8)));
+  console.log(
+    chalk.yellow.dim(`${EDGE} `) + chalk.gray(title.padEnd(titleColumnWidth) + score.padStart(8) + priority.padStart(8))
+  );
 }
 
 function getRoleExplanation(role: CodeObjectRole): RoleExplanation {
   const title = getRoleExplanationTitle(role);
   const hasPotentialScore = role.potentialScore != null && role.potentialScore > 0;
   const score = hasPotentialScore ? `(${role.potentialScore})` : `${role.score}`;
+  const priority = role.priority != null && role.priority > 0 ? `+${role.priority}` : `${role.priority}`;
 
-  return { title, score };
+  return { title, score, priority };
 }
 
 function getRoleExplanationTitle(role: CodeObjectRole): string {
   const titleFns = {};
-  titleFns[DEFAULT_TITLE] = (metadata: any) => `<<Missing title for role \`#{inspect(role_tuple)}\`>>`;
+  titleFns[DEFAULT_TITLE] = (metadata: any) => `<<Missing title for role \`${JSON.stringify(role)}\`>>`;
+
+  titleFns[ROLE_IS_CLASS] = () => 'Is a class';
+  titleFns[ROLE_IS_METHOD] = () => 'Is a method';
+  titleFns[ROLE_IS_FUNCTION] = () => 'Is a function';
+
   titleFns[ROLE_WITH_DOC] = () => 'Has documentation';
   titleFns[ROLE_WITHOUT_DOC] = () => 'Misses documentation';
 
